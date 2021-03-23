@@ -1,4 +1,3 @@
-
 var questionIndex = 0;
 var score = 0;
 var questionsEl = document.querySelector("#questions");
@@ -6,7 +5,7 @@ var choicesEl = document.querySelector("#choices");
 var timerStart = document.querySelector("#Start-Button");
 var highScores = document.querySelector("#high-scores");
 var secondsLeft = 30;
-var holdInterval = 0;
+var timer = 0;
 var timeCurrently = document.querySelector("#timerStart-count");
 var newChoices = document.createElement("ul");
 
@@ -88,14 +87,14 @@ function render(questionIndex) {
 }
 
 timerStart.addEventListener("click", function () {
-  if (holdInterval === 0) {
-    holdInterval = setInterval(function () {
+  if (timer === 0) {
+    timer = setInterval(function () {
       secondsLeft--;
       timeCurrently.textContent = "Time: " + secondsLeft;
 
       if (secondsLeft <= 0) {
-        clearInterval(holdInterval);
-        currentTime.textContent = "Time's up!";
+        clearInterval(timer);
+        timeCurrently.textContent = "Time's up!";
       }
     }, 1000);
   }
@@ -111,17 +110,20 @@ function compareChoices(event) {
     // Correct condition
     if (element.textContent == questionList[questionIndex].answer) {
       score++;
-      answerResponse.textContent =
-        "Correct!"
+      answerResponse.textContent = "Correct!";
       // Correct condition
     } else {
       // Will deduct -5 seconds off secondsLeft for wrong answers
       answerResponse.textContent =
         "Wrong! The correct answer is:  " + questionList[questionIndex].answer;
-        questionsEl.appendChild(answerResponse);
+      questionsEl.appendChild(answerResponse);
     }
   }
   questionIndex++;
-  render(questionIndex);
 
+// if (questionList.length < )
+
+
+
+  render(questionIndex);
 }

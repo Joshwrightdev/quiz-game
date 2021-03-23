@@ -1,9 +1,16 @@
 var score = 0;
-var questionListIndex = 0;
-var nextQuestion = document.querySelector("#Questions");
-var nextChoices = document.querySelector("#Choices");
+var questionIndex = 0;
+var questionsEl = document.querySelector("#questions");
+var choicesEl = document.querySelector("#choices");
+var timer = document.querySelector("#Start-Button");
+var highScores = document.querySelector("#high-scores");
+var secondsLeft = 30;
+var holdInterval = 0;
+var penalty = 10;
+var timeCurrently = document.querySelector("#timer-count");
+var newChoices = document.createElement("ul");
 
-var questions = [
+var questionList = [
   {
     question: "The background noise present in a scene or recording location:",
     choices: ["strings", "Ambient Audio", "alerts", "numbers"],
@@ -60,3 +67,77 @@ var questions = [
     answer: "Phantom Power",
   },
 ];
+
+function render(questionIndex) {
+  questionsEl.innerHTML = "";
+  newChoices.innerHTML = "";
+  for (var i = 0; i < questionList.length; i++) {
+    var userQuestion = questionList[questionIndex].question;
+    questionsEl.textContent = userQuestion;
+  }
+
+  var userChoices = questionList[questionIndex].choices;
+
+  userChoices.forEach(function (newItem) {
+    var listItem = document.createElement("li");
+    listItem.textContent = newItem;
+    questionsEl.appendChild(newChoices);
+    newChoices.appendChild(listItem);
+    listItem.addEventListener("click", compare);
+  });
+}
+
+timer.addEventListener("click", function () {
+  if (holdInterval === 0) {
+    holdInterval = setInterval(function () {
+      secondsLeft--;
+      timeCurrently.textContent = "Time: " + secondsLeft;
+
+      if (secondsLeft <= 0) {
+        clearInterval(holdInterval);
+        allDone();
+        currentTime.textContent = "Time's up!";
+      }
+    }, 1000);
+  }
+  render(questionIndex);
+});
+
+function compare(event) {
+  var element = event.target;
+
+  if (element.matches("li")) {
+    var createDiv = document.createElement("div");
+    createDiv.setAttribute("id", "createDiv");
+    // Correct condition
+    if (element.textContent == questionList[questionIndex].answer) {
+      score++;
+      createDiv.textContent =
+        "Correct! The answer is:  " + questionList[questionIndex].answer;
+      // Correct condition
+    } else {
+      // Will deduct -5 seconds off secondsLeft for wrong answers
+      secondsLeft = secondsLeft - penalty;
+      createDiv.textContent =
+        "Wrong! The correct answer is:  " + questionList[questionIndex].answer;
+    }
+  }
+  // Question Index determines number question user is on
+  questionIndex++;
+
+  if (questionIndex >= questions.length) {
+    // All done will append last page with user stats
+    allDone();
+    createDiv.textContent =
+      "End of quiz!" +
+      " " +
+      "You got  " +
+      score +
+      "/" +
+      questions.length +
+      " Correct!";
+  } else {
+    render(questionIndex);
+  }
+  questionsEl.appendChild(createDiv);
+}

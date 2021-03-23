@@ -74,13 +74,11 @@ function render(questionIndex) {
   for (var i = 0; i < questionList.length; i++) {
     var userQuestion = questionList[questionIndex].question;
     questionsEl.textContent = userQuestion;
-  }
-
   var userChoices = questionList[questionIndex].choices;
-
-  userChoices.forEach(function (newItem) {
+  }
+  userChoices.forEach(function (choiceIndex) {
     var listItem = document.createElement("li");
-    listItem.textContent = newItem;
+    listItem.textContent = choiceIndex;
     questionsEl.appendChild(newChoices);
     newChoices.appendChild(listItem);
     listItem.addEventListener("click", compareChoices);
@@ -99,6 +97,10 @@ timerStart.addEventListener("click", function () {
         currentTime.textContent = "Time's up!";
       }
     }, 1000);
+
+
+
+    
   }
   render(questionIndex);
 });
@@ -108,22 +110,31 @@ function compareChoices(event) {
 
   if (element.matches("li")) {
     answerResponse.setAttribute("id", "answerResponse");
-    // Correct condition
+  
     if (element.textContent == questionList[questionIndex].answer) {
       score++;
       answerResponse.textContent =
         "Correct! The answer is:  " + questionList[questionIndex].answer;
-      // Correct condition
     } else {
-      // Will deduct -5 seconds off secondsLeft for wrong answers
       answerResponse.textContent =
         "Wrong! The correct answer is:  " + questionList[questionIndex].answer;
     }
+      questionIndex++;
   }
-  questionIndex++;
+
+  
   render(questionIndex);
-  questionsEl.appendChild(answerResponse);
+ questionsEl.appendChild(answerResponse);
  }
+
+
+ if (questionIndex === 0){
+   answerResponse.textContent
+ }
+
+
+
+
 
 
 

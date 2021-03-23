@@ -1,69 +1,68 @@
-var score = 0;
+
 var questionIndex = 0;
 var questionsEl = document.querySelector("#questions");
 var choicesEl = document.querySelector("#choices");
-var timer = document.querySelector("#Start-Button");
+var timerStart = document.querySelector("#Start-Button");
 var highScores = document.querySelector("#high-scores");
 var secondsLeft = 30;
 var holdInterval = 0;
-var penalty = 10;
-var timeCurrently = document.querySelector("#timer-count");
+var timeCurrently = document.querySelector("#timerStart-count");
 var newChoices = document.createElement("ul");
 
 var questionList = [
   {
     question: "The background noise present in a scene or recording location:",
-    choices: ["strings", "Ambient Audio", "alerts", "numbers"],
+    choices: ["a", "Ambient Audio", "c", "d"],
     answer: "Ambient Audio",
   },
   {
     question: "The name of a device which reduces signal:",
-    choices: ["quotes", "Attenuator", "parentheses", "square brackets"],
+    choices: ["a", "Attenuator", "c", "d"],
     answer: "Attenuator",
   },
   {
     question: "The pathway along which an electrical signal flows:",
-    choices: ["Bus", "other arrays", "booleans", "all of the above"],
+    choices: ["Bus", "B", "C", "D"],
     answer: "Bus",
   },
   {
     question:
       "This is the term for the Logarithmic measurement of signal strength:",
-    choices: ["commas", "Decibel", "quotes", "parenthesis"],
+    choices: ["A", "Decibel", "C", "D"],
     answer: "Decibel",
   },
   {
     question:
       "The process of adjusting various audio frequencies to correct or enhance the sound:",
-    choices: ["Javascript", "terminal / bash", "for loops", "Equalization"],
+    choices: ["A", "B", " C", "Equalization"],
     answer: "Equalization",
   },
   {
     question: "The amplification level of an audio signal:",
-    choices: ["strings", "booleans", "gain", "numbers"],
+    choices: ["A", "B", "gain", "D"],
     answer: "gain",
   },
   {
     question: "A unit of frequency measured in cycles per second:",
-    choices: ["quotes", "curly brackets", "hertz", "square brackets"],
+    choices: ["A", " B", "hertz", "D"],
     answer: "hertz",
   },
   {
     question:
       "What is the standard of communication between musical instruments, controllers and computers:",
-    choices: ["MIDI", "other arrays", "booleans", "all of the above"],
+    choices: ["MIDI", "B", "C", "D"],
     answer: "MIDI",
   },
   {
     question:
       "In digital audio recording, thousands of individual _____ are recorded every second:",
-    choices: ["commas", "samples", "quotes", "parenthesis"],
+    choices: ["A", "samples", "B", "D"],
     answer: "samples",
   },
   {
     question:
       "A DC current which is sent through audio cables to provide power for devices such as microphones:",
-    choices: ["Javascript", "terminal / bash", "Phantom Power", "console log"],
+    choices: ["A", "B", "Phantom Power", "D log"],
     answer: "Phantom Power",
   },
 ];
@@ -83,11 +82,11 @@ function render(questionIndex) {
     listItem.textContent = newItem;
     questionsEl.appendChild(newChoices);
     newChoices.appendChild(listItem);
-    listItem.addEventListener("click", compare);
+    listItem.addEventListener("click", compareChoices);
   });
 }
 
-timer.addEventListener("click", function () {
+timerStart.addEventListener("click", function () {
   if (holdInterval === 0) {
     holdInterval = setInterval(function () {
       secondsLeft--;
@@ -103,41 +102,37 @@ timer.addEventListener("click", function () {
   render(questionIndex);
 });
 
-function compare(event) {
+function compareChoices(event) {
   var element = event.target;
 
   if (element.matches("li")) {
-    var createDiv = document.createElement("div");
-    createDiv.setAttribute("id", "createDiv");
+    var userResponse = document.createElement("h1");
+    userResponse.setAttribute("id", "userResponse");
     // Correct condition
     if (element.textContent == questionList[questionIndex].answer) {
       score++;
-      createDiv.textContent =
+      userResponse.textContent =
         "Correct! The answer is:  " + questionList[questionIndex].answer;
       // Correct condition
     } else {
       // Will deduct -5 seconds off secondsLeft for wrong answers
-      secondsLeft = secondsLeft - penalty;
-      createDiv.textContent =
+      userResponse.textContent =
         "Wrong! The correct answer is:  " + questionList[questionIndex].answer;
     }
   }
-  // Question Index determines number question user is on
+
   questionIndex++;
 
-  if (questionIndex >= questions.length) {
-    // All done will append last page with user stats
-    allDone();
-    createDiv.textContent =
-      "End of quiz!" +
-      " " +
-      "You got  " +
-      score +
-      "/" +
-      questions.length +
-      " Correct!";
+  if (questionIndex >= questionList.length) {
+   
+    Finish();
+    userResponse.textContent =
+      "Total Score" + finalScore  
+    
+   
   } else {
     render(questionIndex);
   }
-  questionsEl.appendChild(createDiv);
+
+  questionsEl.appendChild(userResponse);
 }

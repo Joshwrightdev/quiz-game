@@ -1,5 +1,6 @@
 
 var questionIndex = 0;
+var score = 0;
 var questionsEl = document.querySelector("#questions");
 var choicesEl = document.querySelector("#choices");
 var timerStart = document.querySelector("#Start-Button");
@@ -94,7 +95,6 @@ timerStart.addEventListener("click", function () {
 
       if (secondsLeft <= 0) {
         clearInterval(holdInterval);
-        allDone();
         currentTime.textContent = "Time's up!";
       }
     }, 1000);
@@ -106,33 +106,22 @@ function compareChoices(event) {
   var element = event.target;
 
   if (element.matches("li")) {
-    var userResponse = document.createElement("h1");
-    userResponse.setAttribute("id", "userResponse");
+    var answerResponse = document.createElement("h1");
+    answerResponse.setAttribute("id", "answerResponse");
     // Correct condition
     if (element.textContent == questionList[questionIndex].answer) {
       score++;
-      userResponse.textContent =
+      answerResponse.textContent =
         "Correct! The answer is:  " + questionList[questionIndex].answer;
       // Correct condition
     } else {
       // Will deduct -5 seconds off secondsLeft for wrong answers
-      userResponse.textContent =
+      answerResponse.textContent =
         "Wrong! The correct answer is:  " + questionList[questionIndex].answer;
+        questionsEl.appendChild(answerResponse);
     }
   }
-
   questionIndex++;
+  render(questionIndex);
 
-  if (questionIndex >= questionList.length) {
-   
-    Finish();
-    userResponse.textContent =
-      "Total Score" + finalScore  
-    
-   
-  } else {
-    render(questionIndex);
-  }
-
-  questionsEl.appendChild(userResponse);
 }

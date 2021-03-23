@@ -1,3 +1,8 @@
+var score = 0;
+var questionListIndex = 0;
+var nextQuestion = document.querySelector("#Questions");
+var nextChoices = document.querySelector("#Choices");
+
 var questions = [
   {
     question: "The background noise present in a scene or recording location:",
@@ -55,5 +60,3 @@ var questions = [
     answer: "Phantom Power",
   },
 ];
-
-

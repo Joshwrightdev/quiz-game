@@ -112,7 +112,7 @@ function compareChoices(event) {
     if (element.textContent == questionList[questionIndex].answer) {
       score++;
       answerResponse.textContent =
-        "Correct! The answer is:  " + questionList[questionIndex].answer;
+        "Correct!"
       // Correct condition
     } else {
       // Will deduct -5 seconds off secondsLeft for wrong answers

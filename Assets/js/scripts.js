@@ -1,4 +1,3 @@
-var questionIndex = 0;
 var score = 0;
 var questionsEl = document.querySelector("#questions");
 var choicesEl = document.querySelector("#choices");
@@ -68,13 +67,15 @@ var questionList = [
   },
 ];
 
+var questionIndex = 0;
+
 function render(questionIndex) {
   questionsEl.innerHTML = "";
   newChoices.innerHTML = "";
   for (var i = 0; i < questionList.length; i++) {
     var userQuestion = questionList[questionIndex].question;
     questionsEl.textContent = userQuestion;
-  var userChoices = questionList[questionIndex].choices;
+    var userChoices = questionList[questionIndex].choices;
   }
   userChoices.forEach(function (choiceIndex) {
     var listItem = document.createElement("li");
@@ -93,14 +94,10 @@ timerStart.addEventListener("click", function () {
 
       if (secondsLeft <= 0) {
         clearInterval(holdInterval);
-        showHighScore();
+        // showHighScore();
         currentTime.textContent = "Time's up!";
       }
     }, 1000);
-
-
-
-    
   }
   render(questionIndex);
 });
@@ -110,31 +107,24 @@ function compareChoices(event) {
 
   if (element.matches("li")) {
     answerResponse.setAttribute("id", "answerResponse");
-  
+
     if (element.textContent == questionList[questionIndex].answer) {
-      score++;
       answerResponse.textContent =
         "Correct! The answer is:  " + questionList[questionIndex].answer;
     } else {
       answerResponse.textContent =
         "Wrong! The correct answer is:  " + questionList[questionIndex].answer;
     }
-      questionIndex++;
+    questionIndex++;
+    render(questionIndex);
+    questionsEl.appendChild(answerResponse);
   }
 
-  
-  render(questionIndex);
- questionsEl.appendChild(answerResponse);
- }
+  if (questionIndex === 7) {
+    questionsEl.innerHTML = "";
+    newChoices.innerHTML = "";
+    localStorage.setItem("score", secondsLeft);
+  }
 
-
- if (questionIndex === 0){
-   answerResponse.textContent
- }
-
-
-
-
-
-
+}
 

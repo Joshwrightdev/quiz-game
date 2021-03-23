@@ -5,9 +5,10 @@ var choicesEl = document.querySelector("#choices");
 var timerStart = document.querySelector("#Start-Button");
 var highScores = document.querySelector("#high-scores");
 var secondsLeft = 30;
-var timer = 0;
+var holdInterval = 0;
 var timeCurrently = document.querySelector("#timerStart-count");
 var newChoices = document.createElement("ul");
+var answerResponse = document.createElement("h1");
 
 var questionList = [
   {
@@ -87,14 +88,15 @@ function render(questionIndex) {
 }
 
 timerStart.addEventListener("click", function () {
-  if (timer === 0) {
-    timer = setInterval(function () {
+  if (holdInterval === 0) {
+    holdInterval = setInterval(function () {
       secondsLeft--;
       timeCurrently.textContent = "Time: " + secondsLeft;
 
       if (secondsLeft <= 0) {
-        clearInterval(timer);
-        timeCurrently.textContent = "Time's up!";
+        clearInterval(holdInterval);
+        showHighScore();
+        currentTime.textContent = "Time's up!";
       }
     }, 1000);
   }
@@ -105,25 +107,23 @@ function compareChoices(event) {
   var element = event.target;
 
   if (element.matches("li")) {
-    var answerResponse = document.createElement("h1");
     answerResponse.setAttribute("id", "answerResponse");
     // Correct condition
     if (element.textContent == questionList[questionIndex].answer) {
       score++;
-      answerResponse.textContent = "Correct!";
+      answerResponse.textContent =
+        "Correct! The answer is:  " + questionList[questionIndex].answer;
       // Correct condition
     } else {
       // Will deduct -5 seconds off secondsLeft for wrong answers
       answerResponse.textContent =
         "Wrong! The correct answer is:  " + questionList[questionIndex].answer;
-      questionsEl.appendChild(answerResponse);
     }
   }
   questionIndex++;
-
-// if (questionList.length < )
-
-
-
   render(questionIndex);
-}
+  questionsEl.appendChild(answerResponse);
+ }
+
+
+

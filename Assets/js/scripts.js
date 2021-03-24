@@ -147,22 +147,3 @@ function submitButton() {
 
   timerStart.appendChild(submitMyNewScore);
 }
-
-submitMyNewScore.addEventListener("click", function () {
-  var initials = submitMyNewScore.value;
-  {
-    var finalScore = {
-      initials: initials,
-      score: secondsLeft,
-    };
-    var scoreLog = localStorage.getItem("scoreLog");
-    if (scoreLog === null) {
-      scoreLog = [];
-    } else {
-      scoreLog = JSON.parse(scoreLog);
-    }
-    scoreLog.push(finalScore);
-    var newScore = JSON.stringify(scoreLog);
-    localStorage.setItem("scoreLog", newScore);
-  }
-});

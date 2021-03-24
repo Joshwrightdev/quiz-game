@@ -147,7 +147,6 @@ function submitScore(){
   mainContainer.appendChild(userInitials);
   submitButton()
 
-  // mainContainer.textContent = secondsLeft + " is your score! Please enter initials: " ;
 
 }
 
@@ -177,6 +176,5 @@ function submitButton(){
      scoreLog.push(finalScore);
      var newScore = JSON.stringify(scoreLog);
      localStorage.setItem("scoreLog", newScore);
-     window.location.replace("./HighScores.html");
    }
   });

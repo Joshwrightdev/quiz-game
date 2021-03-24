@@ -10,7 +10,6 @@ section{
     display: flex;
     flex-direction: column;
     justify-content:space-evenly;
-    border: 1px solid black;
     padding-bottom:100px ;
    
 }

@@ -106,7 +106,7 @@ timerStart.addEventListener("click", function () {
         clearInterval(startCount);
         highScores.textContent = secondsLeft;
         submitScore();
-        
+    
           
       }
       
@@ -135,10 +135,48 @@ function compareChoices(event) {
   }
 }
 
+
+
 function submitScore(){
-  mainContainer.innerHTML="";
   startCount.innerHTML="";
   timerStart.innerHTML="";
+  var userInitials = document.createElement("input");
+  userInitials.setAttribute("type", "text");
+  userInitials.setAttribute("id", "initials");
+  userInitials.textContent = "";
+  mainContainer.appendChild(userInitials);
+  submitButton()
+
+  // mainContainer.textContent = secondsLeft + " is your score! Please enter initials: " ;
 
 }
 
+
+
+function submitButton(){
+   var submitMyNewScore = document.createElement("button");
+   submitMyNewScore.setAttribute("type", "submit");
+   submitMyNewScore.setAttribute("id", "Submit");
+   submitMyNewScore.textContent = "Submit High Score of: " + secondsLeft;
+
+   timerStart.appendChild(submitMyNewScore);
+}
+
+ submitMyNewScore.addEventListener("click", function () {
+   var initials = submitMyNewScore.value; {
+     var finalScore = {
+       initials: initials,
+       score: secondsLeft,
+     };
+     var scoreLog = localStorage.getItem("scoreLog");
+     if (scoreLog === null) {
+       scoreLog = [];
+     } else {
+       scoreLog = JSON.parse(scoreLog);
+     }
+     scoreLog.push(finalScore);
+     var newScore = JSON.stringify(scoreLog);
+     localStorage.setItem("scoreLog", newScore);
+     window.location.replace("./HighScores.html");
+   }
+  });

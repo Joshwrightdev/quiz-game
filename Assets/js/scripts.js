@@ -4,7 +4,7 @@ var choicesEl = document.querySelector("#choices");
 var timerStart = document.querySelector("#Start-Button");
 var highScores = document.querySelector("#high-scores");
 var secondsLeft = 30;
-var startCount = 0;
+var startCount ;
 var timeCurrently = document.querySelector("#timerStart-count");
 var newChoices = document.createElement("ul");
 var answerResponse = document.createElement("h1");
@@ -87,7 +87,6 @@ function render(questionIndex) {
 }
 
 timerStart.addEventListener("click", function () {
-  if (startCount === 0) {
     startCount = setInterval(function () {
       secondsLeft--;
       timeCurrently.textContent = "Time: " + secondsLeft;
@@ -101,10 +100,11 @@ timerStart.addEventListener("click", function () {
         questionsEl.innerHTML = "";
         newChoices.innerHTML = "";
         secondsLeft.innerHTML = "";
+        clearInterval(startCount);
         highScores.textContent = secondsLeft;
       }
     }, 1000);
-  }
+  
   render(questionIndex);
 });
 

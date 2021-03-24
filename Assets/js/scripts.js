@@ -1,16 +1,15 @@
 var score = 0;
-var mainContainer = document.querySelector("#main-container")
+var mainContainer = document.querySelector("#main-container");
 var questionsEl = document.querySelector("#questions");
 var choicesEl = document.querySelector("#choices");
 var timerStart = document.querySelector("#Start-Button");
 var highScores = document.querySelector("#high-scores");
 var secondsLeft = 30;
-var startCount ;
+var startCount;
 var timeCurrently = document.querySelector("#timerStart-count");
 var newChoices = document.createElement("ul");
 var answerResponse = document.createElement("h1");
 var questionIndex = 0;
-
 
 var questionList = [
   {
@@ -70,7 +69,6 @@ var questionList = [
   },
 ];
 
-
 function render(questionIndex) {
   questionsEl.innerHTML = "";
   newChoices.innerHTML = "";
@@ -89,32 +87,27 @@ function render(questionIndex) {
 }
 
 timerStart.addEventListener("click", function () {
-    startCount = setInterval(function () {
-      secondsLeft--;
-      timeCurrently.textContent = "Time: " + secondsLeft;
+  startCount = setInterval(function () {
+    secondsLeft--;
+    timeCurrently.textContent = "Time: " + secondsLeft;
 
-      if (secondsLeft <= 0) {
-        clearInterval(startCount);
-        currentTime.textContent = "Time's up!";
-      }
+    if (secondsLeft <= 0) {
+      clearInterval(startCount);
+      currentTime.textContent = "Time's up!";
+    }
 
-      if (questionIndex === 7) {
+    if (questionIndex === 7) {
+      questionsEl.innerHTML = "";
+      newChoices.innerHTML = "";
+      secondsLeft.innerHTML = "";
+      clearInterval(startCount);
+      highScores.textContent = secondsLeft;
+      submitScore();
+    }
+  }, 1000);
 
-        questionsEl.innerHTML = "";
-        newChoices.innerHTML = "";
-        secondsLeft.innerHTML = "";
-        clearInterval(startCount);
-        highScores.textContent = secondsLeft;
-        submitScore();
-    
-          
-      }
-      
-    }, 1000);
-  
   render(questionIndex);
 });
-
 
 function compareChoices(event) {
   var userInput = event.target;
@@ -135,46 +128,41 @@ function compareChoices(event) {
   }
 }
 
-
-
-function submitScore(){
-  startCount.innerHTML="";
-  timerStart.innerHTML="";
+function submitScore() {
+  startCount.innerHTML = "";
+  timerStart.innerHTML = "";
   var userInitials = document.createElement("input");
   userInitials.setAttribute("type", "text");
   userInitials.setAttribute("id", "initials");
   userInitials.textContent = "";
   mainContainer.appendChild(userInitials);
-  submitButton()
-
-
+  submitButton();
 }
 
+function submitButton() {
+  var submitMyNewScore = document.createElement("button");
+  submitMyNewScore.setAttribute("type", "submit");
+  submitMyNewScore.setAttribute("id", "Submit");
+  submitMyNewScore.textContent = "Submit High Score of: " + secondsLeft;
 
-
-function submitButton(){
-   var submitMyNewScore = document.createElement("button");
-   submitMyNewScore.setAttribute("type", "submit");
-   submitMyNewScore.setAttribute("id", "Submit");
-   submitMyNewScore.textContent = "Submit High Score of: " + secondsLeft;
-
-   timerStart.appendChild(submitMyNewScore);
+  timerStart.appendChild(submitMyNewScore);
 }
 
- submitMyNewScore.addEventListener("click", function () {
-   var initials = submitMyNewScore.value; {
-     var finalScore = {
-       initials: initials,
-       score: secondsLeft,
-     };
-     var scoreLog = localStorage.getItem("scoreLog");
-     if (scoreLog === null) {
-       scoreLog = [];
-     } else {
-       scoreLog = JSON.parse(scoreLog);
-     }
-     scoreLog.push(finalScore);
-     var newScore = JSON.stringify(scoreLog);
-     localStorage.setItem("scoreLog", newScore);
-   }
-  });
+submitMyNewScore.addEventListener("click", function () {
+  var initials = submitMyNewScore.value;
+  {
+    var finalScore = {
+      initials: initials,
+      score: secondsLeft,
+    };
+    var scoreLog = localStorage.getItem("scoreLog");
+    if (scoreLog === null) {
+      scoreLog = [];
+    } else {
+      scoreLog = JSON.parse(scoreLog);
+    }
+    scoreLog.push(finalScore);
+    var newScore = JSON.stringify(scoreLog);
+    localStorage.setItem("scoreLog", newScore);
+  }
+});

@@ -6,7 +6,6 @@ var timerStart = document.querySelector("#Start-Button");
 var highScores = document.querySelector("#high-scores");
 var secondsLeft = 30;
 var startCount;
-var submitHighScore = document.querySelector("#submit-button")
 var timeCurrently = document.querySelector("#timerStart-count");
 var newChoices = document.createElement("ul");
 var answerResponse = document.createElement("h1");
@@ -146,7 +145,7 @@ function submitButton() {
   submitMyNewScore.setAttribute("id", "Submit");
   submitMyNewScore.textContent = "Submit High Score of: " + secondsLeft;
 
-  submitHighScore.appendChild(submitMyNewScore);
+  timerStart.appendChild(submitMyNewScore);
 }
 
 submitMyNewScore.addEventListener("click", function () {
@@ -166,5 +165,4 @@ submitMyNewScore.addEventListener("click", function () {
     var newScore = JSON.stringify(scoreLog);
     localStorage.setItem("scoreLog", newScore);
   }
-
 });

@@ -165,7 +165,6 @@ submitMyNewScore.addEventListener("click", function () {
     scoreLog.push(finalScore);
     var newScore = JSON.stringify(scoreLog);
     localStorage.setItem("scoreLog", newScore);
-    window.
   }
 
 });

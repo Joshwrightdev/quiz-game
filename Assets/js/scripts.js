@@ -67,6 +67,7 @@ var questionList = [
   },
 ];
 
+
 var questionIndex = 0;
 
 function render(questionIndex) {
@@ -94,9 +95,25 @@ timerStart.addEventListener("click", function () {
 
       if (secondsLeft <= 0) {
         clearInterval(holdInterval);
-        // showHighScore();
         currentTime.textContent = "Time's up!";
       }
+
+
+        
+
+
+
+
+
+        if (questionIndex === 7) {
+          
+          questionsEl.innerHTML = "";
+          newChoices.innerHTML = "";
+          secondsLeft.innerHTML= "";
+          highScores.textContent = secondsLeft;
+
+        }
+
     }, 1000);
   }
   render(questionIndex);
@@ -120,11 +137,7 @@ function compareChoices(event) {
     questionsEl.appendChild(answerResponse);
   }
 
-  if (questionIndex === 7) {
-    questionsEl.innerHTML = "";
-    newChoices.innerHTML = "";
-    localStorage.setItem("score", secondsLeft);
-  }
+
 
 }
 

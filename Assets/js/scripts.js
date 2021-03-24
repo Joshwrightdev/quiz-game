@@ -1,4 +1,5 @@
 var score = 0;
+var mainContainer = document.querySelector("#main-container")
 var questionsEl = document.querySelector("#questions");
 var choicesEl = document.querySelector("#choices");
 var timerStart = document.querySelector("#Start-Button");
@@ -8,6 +9,8 @@ var startCount ;
 var timeCurrently = document.querySelector("#timerStart-count");
 var newChoices = document.createElement("ul");
 var answerResponse = document.createElement("h1");
+var questionIndex = 0;
+
 
 var questionList = [
   {
@@ -67,7 +70,6 @@ var questionList = [
   },
 ];
 
-var questionIndex = 0;
 
 function render(questionIndex) {
   questionsEl.innerHTML = "";
@@ -97,24 +99,30 @@ timerStart.addEventListener("click", function () {
       }
 
       if (questionIndex === 7) {
+
         questionsEl.innerHTML = "";
         newChoices.innerHTML = "";
         secondsLeft.innerHTML = "";
         clearInterval(startCount);
         highScores.textContent = secondsLeft;
+        submitScore();
+        
+          
       }
+      
     }, 1000);
   
   render(questionIndex);
 });
 
-function compareChoices(event) {
-  var element = event.target;
 
-  if (element.matches("li")) {
+function compareChoices(event) {
+  var userInput = event.target;
+
+  if (userInput.matches("li")) {
     answerResponse.setAttribute("id", "answerResponse");
 
-    if (element.textContent == questionList[questionIndex].answer) {
+    if (userInput.textContent == questionList[questionIndex].answer) {
       answerResponse.textContent =
         "Correct! The answer is:  " + questionList[questionIndex].answer;
     } else {
@@ -126,3 +134,11 @@ function compareChoices(event) {
     questionsEl.appendChild(answerResponse);
   }
 }
+
+function submitScore(){
+  mainContainer.innerHTML="";
+  startCount.innerHTML="";
+  timerStart.innerHTML="";
+
+}
+
